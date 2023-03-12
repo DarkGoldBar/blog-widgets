@@ -1,57 +1,46 @@
-import json, boto3, time
+import os
+import time
 
+import boto3
+
+TableName = os.environ['TableName']
 client = boto3.client('dynamodb')
-TableName = 'visitor_counter'
-
-def get_args(event):
-    if 'body' in event:  # for HTTP request
-        args = json.loads(event['body'])
-    else:  # for test purpose
-        args = event
-    return args
 
 def lambda_handler(event, context):
-    EMPTY_RESP = {
-        'last_visit': {'N': 0},
-        'visit': {'N': 0},
-    }
     print('RECIVE', dict(event))
-    args = get_args(event)
+    method = event['requestContext']['http']['method']
+    origin = event['headers']['origin']
+    x_page = event['headers']['x-referer-page']
 
-    key = {'page': {'S': args.get('page')}}
-    action = args.get('action')
-    data = {}
+    key = {'page': {'S': origin + x_page}}
+    EMPTY_RESP = {'last_visit': {'N': 0},'visit': {'N': 0}}
 
-    if action is None:
-        return {'error': 'Missing key: action'}
-
-    if action == 'get':
+    if method == 'GET':
         resp = client.get_item(
             TableName=TableName,
             Key=key
         )
-        
         d = resp.get('Item', EMPTY_RESP)
         data = {
             'last': d['last_visit']['N'],
             'visit': d['visit']['N'],
         }
-
-    if action == 'update':
+    elif method == 'POST':
         now = int(time.time())
         resp = client.update_item(
             TableName=TableName,
             Key=key,
-            UpdateExpression = 'SET last_visit = :time ADD visit :inc',
-            ExpressionAttributeValues = {':inc' : {'N': '1'}, ':time': {'N': str(now)}},
+            UpdateExpression='SET last_visit = :time ADD visit :inc',
+            ExpressionAttributeValues={':inc': {'N': '1'}, ':time': {'N': str(now)}},
             ReturnValues="UPDATED_OLD"
         )
-
         d = resp.get('Attributes', EMPTY_RESP)
         data = {
             'last': d['last_visit']['N'],
             'visit': str(int(d['visit']['N']) + 1),
         }
+    else:
+        data = {}
 
     print('SEND', data)
     return data
