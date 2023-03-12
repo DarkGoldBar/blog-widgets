@@ -1,0 +1,172 @@
+
+<style>
+.d-comment {
+  font-size: 1rem;
+}
+
+.d-comment form{
+  width: 100%;
+  max-width: 800px; /* 限制最大宽度，避免太宽 */
+  margin: 0 auto; /* 水平居中 */
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.d-comment input,
+.d-comment textarea {
+  width: 100%;
+  padding: .75rem;
+  margin: 0 .5rem 1rem .5rem;
+  border: none;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.d-comment .flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.d-comment .flex input {
+   flex: 1;
+}
+
+.d-comment textarea {
+  height: auto;
+}
+
+.d-comment .button {
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.d-comment [type=preview] {
+  background-color: #479;
+  color: #fff;
+}
+
+.d-comment [type=preview]:hover {
+  background-color: #69a;
+  text-decoration: none;
+}
+
+.d-comment [type=submit] {
+  background-color: #333;
+  color: #fff;
+}
+
+.d-comment [type=submit]:hover {
+  background-color: #555;
+  text-decoration: none;
+}
+
+.comments {
+  margin-top: 1rem;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  padding: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.comment-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: .5rem;
+}
+
+.comment-info {
+  font-size: .8rem;
+  color: #888;
+}
+
+.comment-time {
+  margin-right: 1rem;
+}
+
+.comment-email {
+  margin-right: 1rem;
+}
+
+.comment-body {
+  line-height: 1.5;
+}
+
+.comment-body p {
+  margin-bottom: 0.75rem;
+}
+
+.comment-body p:last-child {
+  margin-bottom: 0;
+}
+
+.comment-body strong {
+  font-weight: bold;
+  color: #333;
+}
+
+.comment-body em {
+  font-style: italic;
+  color: #666;
+}
+
+.comment-body a {
+  color: #333;
+  text-decoration: underline;
+}
+
+.comment-body a:hover {
+  color: #0066cc;
+}
+
+
+</style>
+
+<div class="d-comment">
+  <form>
+    <div class="flex">
+      <input type="text" id="nickname" name="nickname" placeholder="昵称" required>
+      <input type="email" id="email" name="email" placeholder="邮箱">
+    </div>
+    <div class="flex">
+      <textarea id="comment" name="comment" rows="5" placeholder="请输入评论" required></textarea>
+    </div>
+    <div>
+      <a class="button" type="preview">预览</a>
+      <a class="button" type="submit">提交评论</a>
+    </div>
+  </form>
+  <hr>
+
+  <div class="comments">
+    <div class="comment">
+      <div class="comment-name">Alice</div>
+      <div class="comment-info">
+        <span class="comment-time">2023-03-09 10:00:00</span>
+        <span class="comment-email">alice@example.com</span>
+      </div>
+      <div class="comment-body">
+        <p>This is **markdown** rendered comment body.</p>
+        <p>This is **markdown** rendered comment body.</p>
+      </div>
+    </div>
+    <div class="comment">
+      <div class="comment-name">Bob</div>
+      <div class="comment-info">
+        <span class="comment-time">2023-03-08 12:00:00</span>
+        <span class="comment-email">bob@example.com</span>
+      </div>
+      <div class="comment-body">
+        <p>This is another comment body.</p>
+      </div>
+    </div>
+    <!-- more comments ... -->
+  </div>
+</div>
